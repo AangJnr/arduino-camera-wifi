@@ -9,10 +9,18 @@ http://www.openhomeautomation.net/wireless-camera/
 
 
 ===================
+Modifycation:
 - Fix: lock up on sending start_request on Arduino Uno + CC3000.
 - Improvement: now code read feedback from server during uploading in case error happens.
 - New function: Add capture and upload function to loop so that it capture & upload
 repeatedly.
+
+Camera.php
+- Made the feedback simpler so that you can see the result by byte number directly in Apache's access_log. It is
+> cat /var/log/apache2/access_log 
+on my Mac OS Yosemite. 
+You should see "POST /camera.php HTTP/1.1" 200" with one more number at the end. 
+If the number is 1, then the photo was uploaded successful.
 
 Error:
 - Server sometimes send partially uploaded file error back.
