@@ -9,7 +9,9 @@ http://www.openhomeautomation.net/wireless-camera/
 
 
 ===================
-Modifycation:
+###Fork  
+
+Modification:
 - Fix: lock up on sending start_request on Arduino Uno + CC3000.
 - Improvement: now it read feedback from server during uploading in case error happens.
 - New function: add a capture and a upload function to the loop function so that it captures & uploads
