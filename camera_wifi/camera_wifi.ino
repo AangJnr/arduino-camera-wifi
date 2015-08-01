@@ -18,7 +18,7 @@
 
 // Software serial
 SoftwareSerial cameraconnection = SoftwareSerial(2, 4);
-Adafruit_VC0706 cam = Adafruit_VC0706(&cameraconnection);
+  Adafruit_VC0706 cam = Adafruit_VC0706(&cameraconnection);
 
 // Define CC3000 chip pins
 #define ADAFRUIT_CC3000_IRQ   3
@@ -26,14 +26,12 @@ Adafruit_VC0706 cam = Adafruit_VC0706(&cameraconnection);
 #define ADAFRUIT_CC3000_CS    10
 
 // WiFi network (change with your settings !)
-#define WLAN_SSID       "AE2"        // cannot be longer than 32 characters!
-#define WLAN_PASS       "7410852963"
+#define WLAN_SSID       ""        // cannot be longer than 32 characters!
+#define WLAN_PASS       ""
 #define WLAN_SECURITY   WLAN_SEC_WPA2 // This can be WLAN_SEC_UNSEC, WLAN_SEC_WEP, WLAN_SEC_WPA or WLAN_SEC_WPA2
 
 // Create CC3000 instances
 Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ, ADAFRUIT_CC3000_VBAT, SPI_CLOCK_DIV2);
-
-
 
 // Local server IP, port, and repository (change with your settings !)
 uint32_t ip = cc3000.IP2U32(10, 16, 0, 116);
@@ -43,11 +41,13 @@ String repository = "/";
 void setup() {
 
   Serial.begin(115200);
+
+  //camera test
   Serial.println("Camera test");
 
   // Try to locate the camera
   if (cam.begin()) {
-    Serial.println("Camera found:");
+    Serial.println("Camera found.");
   }
   else {
     Serial.println("Camera not found !");
@@ -55,10 +55,10 @@ void setup() {
   }
 
   // Set picture size
-  cam.setImageSize(VC0706_640x480);
+  cam.setImageSize(VC0706_640x480);  
 
-  // Initialise the module
-  Serial.println(F("\nInitializing..."));
+  // Initialise Wifi
+  Serial.println(F("\nInitializing Wifi..."));
   if (!cc3000.begin())
   {
     Serial.println(F("Couldn't begin()! Check your wiring?"));
@@ -77,33 +77,18 @@ void setup() {
   }
 
   cc3000.printIPdotsRev(ip);
-  Serial.print("\n");
+  Serial.print("\n\n");
 
   //SETUP END
-
 }
 
 void loop() {
-
-  capture();
-
-  upload();
-
-  delay(10000);
-}
-
-void capture() {
-
 
   if (! cam.takePicture())
     Serial.println("Failed to snap!");
   else
     Serial.println("Picture taken!");
 
-
-}
-
-void upload() {
 
   // Get the size of the image (frame) taken
   uint16_t jpglen = cam.frameLength();
@@ -133,7 +118,6 @@ void upload() {
     Serial.println(F("Connected!"));
 
     //HTTP header
-
     client.println(F("POST /camera.php HTTP/1.1"));
     Serial.println(F("POST /camera.php HTTP/1.1"));
     client.println(F("Host: 10.16.0.116:80"));
@@ -212,6 +196,11 @@ void upload() {
     }
   }
   client.close();
+
+  cam.reset();
+  delay(30000);
+
 }
+
 
 
