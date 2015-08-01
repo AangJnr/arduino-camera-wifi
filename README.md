@@ -24,10 +24,6 @@ on my Mac OS Yosemite.
 You should see "POST /camera.php HTTP/1.1" 200" with one more number after it. 
 If the number is 1, then the photo was uploaded successfully.
 
-Current problems:
-- Server sometimes send partially uploaded error back.
-- Photo sometimes can be uploaded successfully, but the jpeg appears damaged.
 
 TODO:
-- Add increased picture number.
-- Avoid bit error artifact.
+- Add increased picture number - Or you can do it on the server side which is much eaiser.
